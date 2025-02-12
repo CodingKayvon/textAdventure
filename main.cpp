@@ -15,7 +15,7 @@ using namespace std;
 
 #define MAX_LINE 80 // The maximum length command
 
-//Inventory System - Struct 
+//Inventory System - Class 
 class Inventory {
   private: 
       //Map (Category Name) to a Map (item Name, and quantity)
