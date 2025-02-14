@@ -1,15 +1,16 @@
 #include <stdio.h>
-#include <unistd.h>
 #include <iostream>
 #include <fcntl.h>
 #include <cstring>
-#include <sys/wait.h>
 
 //Inventory 
 #include <map>
 #include <list>
 #include <string>
 #include <algorithm>
+
+//Load/Save Inventory
+#include <fstream>
 
 using namespace std;
 
@@ -22,43 +23,94 @@ class Inventory {
       //Map -> Map
       map<string, map<string, int>> itemsByCategory;
 
-      //Empty list
-      list<string> categoryOrder;
+      string playerName;
 
   public:
+      //Constructor 
+      Inventory() : playerName(" ") {}
+
+      //Set the players name
+      void setPlayerName(const string& name) {
+        playerName = name;
+      }
+
+      //add item to inventory
       void addItem(const string& category, const string& item, int quantity = 1){
-        //if the category is not found in the list | Prevent Duplicate categories
-        if(find(categoryOrder.begin(), categoryOrder.end(), category) == categoryOrder.end()){
-          //Add the category to the list
-          categoryOrder.push_back(category);
-        }
         //Add item to specific category
         itemsByCategory[category][item] += quantity;
+      }
+
+      //store inventory for next compilation
+      void saveInventory(const string& filename = "savedData.txt") {
+        ofstream file(filename);
+        if(!file) {
+          cout << "Error saving Inventory!\n";
+          return;
+        }
+
+        //Store players name
+        file << playerName << "\n";
+
+        //Store each item, and its quantity for specific category
+        for(const auto& category : itemsByCategory){
+          for(const auto& item : category.second) {
+            file << playerName << ", " << category.first << ", " << item.first << ", " << item.second << "\n";
+          }
+        }
+        file.close();
+        cout << "Saved Successfully!\n";
+      }
+
+      //retrieve inventory from last save
+      void loadInventory(const string& filename = "savedData.txt") {
+        ifstream file(filename);
+        if(!file){
+          cout << "No save file available...\n";
+          return;
+        }
+
+        //Clear inventory before loading 
+        itemsByCategory.clear();
+        string name, category, item;
+        int quantity;
+
+        getline(file, playerName);
+
+        //Reading saved data format and adding previous inventory -> new inventory
+        while(getline(file, name, ',')&&
+              getline(file >> ws, category, ',')&&
+              getline(file >> ws, item, ',')&&
+              (file >> quantity)) {
+                file.ignore();
+                addItem(category, item, quantity);
+              }
+
+        file.close();
+        cout << "Previous save loaded for " << playerName << "!\n";
       }
 
       void displayInventory(){
         //No items within Inventory
         if(itemsByCategory.empty()){
-          cout << "Your inventory is empty.\n";
+          cout << playerName << "'s inventory is empty.\n";
           return;
         }
 
-        //Predefined Category order
-        const string categoryOrder[] = {"Weapons", "Potions", "Artifacts"};
-
-        cout << "\n===== Inventory =====\n";
+        //Defined Inventory Order
+        const string categoryOrder[] = {"Weapons", "Armor", "Potions", "Misc"};
         
-        //Display by category
-        //For each category name within the category order
-        for(const auto& categoryName : categoryOrder) {
-          auto it = itemsByCategory.find(categoryName);
+        cout << "\n===== " << playerName << "'s Inventory =====\n";
 
-          //If a Category Name within categoryOrder is found
-          if(it != itemsByCategory.end()){
-            cout << "\n[ " << categoryName << " ]\n";
+        //Iterate over each category within categoryOrder
+        for(const auto& category : categoryOrder) {
+          auto it = itemsByCategory.find(category);
 
-            //For each item within the category, print | Pointint to value
-            for(const auto& item : it->second){
+          //Check if the category ("it") exist in the inventory
+          if(it != itemsByCategory.end()) {
+            cout << "\n[ " << category << " ]\n";
+
+            //iterate over all items in current category | Name and Quantity
+            for(const auto& item : it->second) {
               cout << " " << item.first << " x" << item.second << "\n";
             }
           }
@@ -86,8 +138,16 @@ int main(int argc, char *argv[]) {
     char *args_pipe[MAX_LINE / 2 + 1]; // hold arguments for the command after pipe
     int should_run = 1;           /* flag to determine when to exit program */
 
+    Inventory player;
+    string name;
+
+    cout << "Start your Journey!\n";
+    cout << "The name to be etched into the walls: ";
+    getline(cin, name);
+    player.setPlayerName(name);
+    
     while (should_run) {
-        printf("What will you do? ");
+        printf("What will you do? (Start - Load - Save - Inventory - Quit)\n");
         fgets(command, MAX_LINE, stdin);
 
         command[strcspn(command, "\n")] = 0; // Remove the trailing newline character
@@ -96,7 +156,18 @@ int main(int argc, char *argv[]) {
         if (strcmp(command, "quit") == 0) {
             should_run = 0; // Exit the program
             continue;
-        }
+        } else if(strcmp(command, "start") == 0) {
+             cout << "The Journey begins " << name << "...\n\n";
+
+          
+
+        }else if(strcmp(command, "save") == 0) {
+             player.saveInventory();
+        } else if(strcmp(command, "load") == 0) {
+             player.loadInventory();
+        } else if(strcmp(command, "inventory") == 0) {
+             player.displayInventory();
+     }
     }
 
     return 0;
