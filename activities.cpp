@@ -37,11 +37,10 @@ void Activities::riddleGame(bool requirment) {
                 inProgress = false;
             }
         } else {
-            cout << "Exit event" << endl;
             inProgress = false;
         }
 
-        cout << "END EVENT" << endl; 
+        cout << "----------------------------END EVENT----------------------------" << endl; 
     }
 }
 

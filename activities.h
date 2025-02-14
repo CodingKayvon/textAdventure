@@ -1,3 +1,5 @@
+#include "inventory.h"
+
 class Activities {
     
 
@@ -10,5 +12,7 @@ class Activities {
      * @return 0 (for now, may have it return specific int for rewards later)
      */
     void riddleGame(bool requirment);
+
+    void challenge(Inventory& inventory);
 
 };
