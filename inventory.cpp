@@ -1,6 +1,7 @@
 #include <iostream>
 #include "inventory.h"
 
+
 //Inventory 
 #include <map>
 #include <list>
@@ -54,5 +55,13 @@ using namespace std;
         }
         
         bool Inventory::hasItem(const string& item) const{
-          return itemsByCategory.find(item) != itemsByCategory.end();
+            // loop through each category
+          for (const auto& category : itemsByCategory) {
+            // If the item is found within the category
+            if (category.second.find(item) != category.second.end()) {
+                return true; // Item exists in the inventory
+            }
+        }
+        return false; // Item not found in any category
+          //return itemsByCategory.find(item) != itemsByCategory.end();
         }
