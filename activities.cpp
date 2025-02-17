@@ -4,6 +4,7 @@
 #include <thread>
 #include <chrono>
 #include <vector>
+#include <limits>
 
 using namespace std;
 
@@ -26,6 +27,7 @@ bool Activities::keyChallenge(string keyName) {
     while (inProgress) {
         cout << "Do you wish to attempt this challenge? (yes or no)" << endl;
         cin >> userIn;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         
         
         if (userIn == "yes") {  // simple check for user input (TBD)
@@ -33,12 +35,12 @@ bool Activities::keyChallenge(string keyName) {
             this_thread::sleep_for(chrono::seconds(2));     // pauses for 2 seconds
             if (activity.hasItem(keyName)) {   // if requirment is met
                 cout << "You have the "<< keyName << ", you did it!!" << endl;
-                cout << "---------------------------------------" << endl;
+                cout << "----------------------------------------------------------------------------------" << endl;
                 inProgress = false;
                 return true;
             } else {    // requirment is not met
                 cout << "You do not have the " << keyName << " :(" << endl;
-                cout << "---------------------------------------" << endl;
+                cout << "----------------------------------------------------------------------------------" << endl;
                 inProgress = false;
                 return false;
             }
@@ -54,35 +56,35 @@ bool Activities::keyChallenge(string keyName) {
 bool Activities::tabletPuzzle() {
     cout << "----------------------------Tablet stuff----------------------------" << endl;
     bool inProgress = true;
-    map<int, vector<string>> columns;   // player's tablet placements
-    vector<string> tablets = {"Tablet A", "Tablet B", "Tablet C"};  // tablets to place
+    map<int, vector<string>> Walls;   // player's tablet placements
+    vector<string> tablets = {"Whale", "Goose", "Snake"};  // tablets to place
 
-    map<int, vector<string>> correctColumns = {
-        {1, {"Tablet A"}}, 
-        {2, {"Tablet B"}}, 
-        {3, {"Tablet C"}}
+    map<int, vector<string>> correctWalls = {
+        {1, {"Whale"}}, // west
+        {2, {"Goose"}}, // south
+        {3, {"Snake"}}  // east
     };
-
+    cout << "1 = West, 2 = South, 3 = East\n";
     while(inProgress) {
 
-    cout << "Place the tablets in the correct columns to progress.\n";
+    cout << "Place the tablets in the correct Walls to progress.\n";
     for (const auto& tablet : tablets) {    // recieve user input for each tablet placement 
         int choice;
         cout << "Where would you like to place " << tablet << "? (1-3)";
         cin >> choice;
 
         if (choice >= 1 && choice <= 3) {
-            columns[choice].push_back(tablet);  // insert tablet into the user choice
-            cout << "Placed " << tablet << " in column " << choice << endl;
+            Walls[choice].push_back(tablet);  // insert tablet into the user choice
+            cout << "Placed " << tablet << " on wall " << choice << endl;
         } else {
-            cout << "Invalid Column" << endl;
+            cout << "Invalid Wall" << endl;
         }
     }
 
-    cout << "\nFinal Columns:\n";
-    for (const auto& column : columns) {
-        cout << "Column " << column.first << ": ";
-        for (const auto& tablet : column.second) {
+    cout << "\nFinal Walls:\n";
+    for (const auto& wall : Walls) {
+        cout << "Wall " << wall.first << ": ";
+        for (const auto& tablet : wall.second) {
             cout << tablet << " ";
         }
         cout << endl;
@@ -94,7 +96,7 @@ bool Activities::tabletPuzzle() {
     this_thread::sleep_for(chrono::seconds(2));     // pauses for 2 seconds
 
     // compare user answers to answer key
-    if (columns == correctColumns) {
+    if (Walls == correctWalls) {
         cout << "Congratulations, you did it!\n";
         inProgress = false;
         return true;

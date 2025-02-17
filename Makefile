@@ -7,7 +7,7 @@ CFLAGS = -g -Wall -std=c++11		# compilation flags: -g for debugging. Change to -
 LIB = -lm			# linked libraries	
 LDFLAGS = -L.			# link flags
 PROG = game			# target executable (output)
-SRCS = main.cpp activities.cpp inventory.cpp       # .c or .cpp source files.
+SRCS = main.cpp activities.cpp inventory.cpp entity.cpp movement.cpp     # .c or .cpp source files.
 OBJ = $(SRCS:.cpp=.o) 	# object files for the target. Add more to this and next lines if there are more than one source files.
 DEPS = $(SRCS:.cpp=.d)
 

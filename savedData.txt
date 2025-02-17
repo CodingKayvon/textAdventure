@@ -1,0 +1,4 @@
+Litho
+Litho, Artifacts, Skull Key, 1
+Litho, Potions, Health Potion, 5
+Litho, Weapons, Trusty Sword, 1
