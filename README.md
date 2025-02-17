@@ -10,6 +10,10 @@ The main focus of the game is to explore the starting town and its surrounding a
 
 # Credits
 Kayvon - Inventory system
+
 Avery - Combat system
+
 Zach - Activities
+
 River - Exploration & NPC interaction
+
