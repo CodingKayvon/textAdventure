@@ -130,10 +130,6 @@ int main(int argc, char *argv[])
     {
       inventory.displayInventory();
     }
-    // else if (strcmp(command, "load") == 0)
-    // {
-    //   player.loadInventory();
-    // }
 
     /**
      * Combat
@@ -151,12 +147,7 @@ int main(int argc, char *argv[])
     /**
      * ====================================== Windgale ======================================
      */
-    // if (currentLocation == WINDGALE && !inventory.hasItem("Ancient Map") && strcmp(command, "pick up map") == 0)
-    // {
-    //   inventory.addItem("Artifacts", "Ancient Map", 1);
-    //   cout << "\033[3myou picked up an old map!\033[0m\n";
-    //   cout << "==================================\n";
-    // }
+
     //--------------------------------------------------------------------------------  SHOP
     if (currentLocation == WINDGALE && strcmp(command, "go to shop") == 0)
     {
@@ -276,9 +267,11 @@ int main(int argc, char *argv[])
 
     if (currentLocation == DUNGEON && strcmp(command, "enter dungeon") == 0)
     {
-      if (activities.keyChallenge("Skull Key"))
+      if (activities.keyChallenge("Skull Key") && inventory.hasItem("Trusty Sword"))
       {
         currentLocation = ROOM1;
+      } else {
+        currentLocation = WINDGALE;
       }
     }
     /**
@@ -396,58 +389,3 @@ int main(int argc, char *argv[])
   }
   return 0;
 }
-
-/**
- * if (strcmp(command, "riddle") == 0)
-    {
-      Activities riddle; // create activities object
-      string key = "Golden Key";
-      riddle.keyChallenge(key); // run the game
-      cin.ignore();
-    }
-
-    if (strcmp(command, "pick up key") == 0)
-    {
-      inventory.addItem("Artifacts", "Golden Key", 1);
-      cout << "\033[3mYou have the Golden Key!\033[0m\n";
-    }
-
-    if (strcmp(command, "tablet puzzle") == 0)
-    {
-      Activities tabletGame;
-      tabletGame.tabletPuzzle();
-      cin.ignore();
-    }
-
-        // Locked door
-    if (currentLocation == DUNGEON && strcmp(command, "go next room") == 0)
-    {
-      cout << "this door has a lock...\n";
-      bool doorUnlock = activities.keyChallenge("Golden Key");
-      cin.ignore();
-      if (doorUnlock)
-      {
-        currentLocation = DUNGEONR2;
-        cout << "You have entered the next room on the dungeon\n";
-      }
-      else
-      {
-        cout << "The door won't budge\n";
-      }
-    }
-
-
-   /**
-     * NPC Interaction
-     */
-/*
-if (currentLocation == BEGINNING && strcmp(command, "speak with person") == 0)
-{
-  cout << "some diologue can go here, take this for your travels\n";
-  inventory.addItem("Potions", "Health Potion", 3);
-  cout << "\033[3mYou have recieved some health potions.\033[0m\n";
-  cout << "==================================\n";
-}
-
-
-*/

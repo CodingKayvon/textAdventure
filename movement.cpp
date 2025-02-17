@@ -35,8 +35,8 @@ void displayCommands(Location currentLocation, Inventory& inventory) {
     
   } else if (currentLocation == TAVERN) {
     cout << "\033[3mThis tavern is clearly the most popular building in town as it is the largest and loudest area of town. The sign outside reads, 'Gale Valley Brewery and Tavern.'\033[0m\n";
-    cout << "\033[3mAs you push open the saloon doors and the full image of this place comes into view, one specific patron catches your eye, a rugged, green-scaled dragonborn who appears to be a retired ranger sipping on hard liquor and plucking at the string of their bow as you would a lyre.\033[0m\n";
-    cout << "\033[3mA burly orc stands in front of the wall of available drinks polishing a glass mug. He shoots an inquisitive glare in your direction and beckons you over to him.\033[0m\n";
+    cout << "\033[3mAs you push open the saloon doors and the full image of this place comes into view, one specific patron catches your eye, Moss, a rugged, green-scaled dragonborn who appears to be a retired ranger sipping on hard liquor and plucking at the string of their bow as you would a lyre.\033[0m\n";
+    cout << "\033[3mA burly orc, Rundigar, stands in front of the wall of available drinks polishing a glass mug. He shoots an inquisitive glare in your direction and beckons you over to him.\033[0m\n";
     cout << "+---------------------+\n";
     cout << "| Available Actions   |\n";
     cout << "| Speak with Moss     |\n";
